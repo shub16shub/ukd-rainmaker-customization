@@ -95,6 +95,14 @@ ReportDefinitions:
     source: pt
     isMandatory: false
     searchClause: AND paymentmode = $paymentMode
+  - name: collectorName
+    label: Collector Name
+    type: singlevaluelist
+    pattern:  http://egov-hrms:8080/egov-hrms/employees/_search?tenantId=$tenantid&roles=PTCEMP%7C$.Employees[*].user.id%7C$.Employees[*].user.name
+    source: pt
+	  wrapper: true
+    isMandatory: false
+    searchClause: AND un.id = $collectorname::INTEGER
   query: |
     select initcap(split_part(pay.tenantid, '.', 2)) as tenantid,
     bill.consumercode as propertyid,
@@ -126,6 +134,7 @@ ReportDefinitions:
     addr.property=bill.consumercode and
     RIGHT(msg.code,5)=addr.locality and
     msg.tenantid=pay.tenantid and
+    un.name LIKE $collectorname and
     msg.locale='hi_IN' and
     pay.tenantid LIKE $tenantid and 
     pd.businessservice='PT'and 
