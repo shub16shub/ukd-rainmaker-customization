@@ -100,14 +100,14 @@ ReportDefinitions:
     source: pt
     isMandatory: false
     searchClause: AND paymentmode = $paymentMode
-  - name: collectorName
-    label: Collector Name
+  - name: collectorname
+    label: reports.pt.collectorname
     type: singlevaluelist
-    pattern:  http://egov-hrms:8080/egov-hrms/employees/_search?tenantId=$tenantid&roles=PTCEMP%7C$.Employees[*].user.id%7C$.Employees[*].user.name
+    pattern: http://egov-hrms:8080/egov-hrms/employees/_search?tenantId=$tenantid&roles=PTCEMP|$.Employees[*].user.id|$.Employees[*].user.name
     source: pt
     wrapper: true
     isMandatory: false
-    searchClause: AND un.id = $collectorname::INTEGER
+    searchClause: AND eg_user.id = $collectorname::INTEGER
   query: |
     select initcap(split_part(pay.tenantid, '.', 2)) as tenantid,
     bill.consumercode as propertyid,
